@@ -3,13 +3,11 @@ package com.sparta.memo.controller;
 import com.sparta.memo.dto.MemoRequestDto;
 import com.sparta.memo.dto.MemoResponseDto;
 import com.sparta.memo.entity.Memo;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,6 +16,7 @@ public class MemoController {
 
     // DB 대신 사용 Long -> Memo id , Memo 객체를 넣는 것은 데이터
     private final Map<Long, Memo> memoList = new HashMap<>();
+
     @PostMapping("/memos")
     public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto) {
         // RequestDto -> Entity RequestDto 데이터베이스 저장
@@ -41,8 +40,19 @@ public class MemoController {
         MemoResponseDto memoResponseDto = new MemoResponseDto(memo);
 
         return memoResponseDto;
+    }
 
-
-
+    //메모가 여러개 일 수 있으니까 List형식으로 반환
+    @GetMapping("/memos")
+    public List<MemoResponseDto> getMemos() {
+        // Map to List
+        // values => Map<Long, Memo> memoList에서 Memo에 들어있는 모든 것을 가져옴
+        // .stream() for문처럼 돌려줌
+        // .map() Memo를 가지고 변환을 해줌 여기서는 MemoResponseDto 에서 생성자 객체로 만들어줌 -> ::new
+        // .toList()_모아서 MemoResponseDto type의 List로 만들어줌
+        // stream이 어려우면 for문으로 하기
+        List<MemoResponseDto> responseDtoList = memoList.values().stream()
+                .map(MemoResponseDto::new).toList();
+        return responseDtoList;
     }
 }
