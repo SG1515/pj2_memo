@@ -3,6 +3,7 @@ package com.sparta.memo.controller;
 import com.sparta.memo.dto.MemoRequestDto;
 import com.sparta.memo.dto.MemoResponseDto;
 import com.sparta.memo.service.MemoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 public class MemoController {
 
     private final MemoService memoService;
+
+    @Autowired
     public MemoController(MemoService memoService){
         this.memoService = memoService;
     }

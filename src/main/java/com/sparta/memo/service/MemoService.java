@@ -4,15 +4,23 @@ import com.sparta.memo.dto.MemoRequestDto;
 import com.sparta.memo.dto.MemoResponseDto;
 import com.sparta.memo.entity.Memo;
 import com.sparta.memo.repository.MemoRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class MemoService {
+@Service
+public class MemoService { // Bean name : memoRepository
 
     private final MemoRepository memoRepository;
+
     public MemoService(MemoRepository memoRepository) {
         this.memoRepository = memoRepository;
     }
+    // 직접 IoC 컨테이너에서 빈 객체를 가져와서 생성자 만들기
+    // public MemoService(ApplicationContext context) { //빈이름으로 가져오기
+    // MemoRepository memoRepository = (MemoResitory) context.getBean("memoRepository");
+    // this.memoRepository = memoRepository;
+    // }
 
     public MemoResponseDto createMemo(MemoRequestDto requestDto) {
         // RequestDto -> Entity
